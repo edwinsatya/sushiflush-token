@@ -60,16 +60,59 @@ The TypeScript suite covers the viem call path that the frontend will later use.
 
 ## Deployment
 
-Not yet deployed. Sepolia deployment via Hardhat Ignition is the next step.
+Deployed to **Sepolia** testnet with Hardhat Ignition and verified on all three
+explorers.
 
-The private key for deployment is read through Hardhat's `configVariable`, which
-resolves from either the encrypted keystore or an environment variable:
+| | |
+| --- | --- |
+| Network | Sepolia (chain ID 11155111) |
+| Address | `0xeB45F6b8Cbfe0B988a22a98C750CeFfe1f875b12` |
+| Etherscan | [source](https://sepolia.etherscan.io/address/0xeB45F6b8Cbfe0B988a22a98C750CeFfe1f875b12#code) |
+| Blockscout | [source](https://eth-sepolia.blockscout.com/address/0xeB45F6b8Cbfe0B988a22a98C750CeFfe1f875b12#code) |
+| Sourcify | [source](https://sourcify.dev/server/repo-ui/11155111/0xeB45F6b8Cbfe0B988a22a98C750CeFfe1f875b12) |
+
+The entire 1,000,000 SFLUSH supply was minted to the deploying account.
+
+### Configuration
+
+Three secrets are read through Hardhat's `configVariable`, which resolves from the
+encrypted keystore (stored outside the repo) or from an environment variable.
+Hardhat 3 does **not** read `.env` files.
 
 ```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+npx hardhat keystore set SEPOLIA_RPC_URL       # https://eth-sepolia.g.alchemy.com/v2/<key>
+npx hardhat keystore set SEPOLIA_PRIVATE_KEY   # 0x + 64 hex chars
+npx hardhat keystore set ETHERSCAN_API_KEY
+npx hardhat keystore list                      # prints names only, never values
 ```
 
 Use a throwaway development wallet. Never a wallet holding real funds.
+
+### Deploying
+
+```shell
+npx hardhat ignition deploy --network sepolia ignition/modules/SushiFlush.ts
+```
+
+Ignition records the deployed address and a resumable journal under
+`ignition/deployments/chain-11155111/`. Rerunning the same command resumes an
+interrupted deployment instead of deploying a second contract.
+
+### Verifying
+
+```shell
+npx hardhat verify --network sepolia --build-profile production <address>
+```
+
+**`--build-profile production` is required.** Ignition deploys to real networks
+using the `production` profile (optimizer enabled, 200 runs), while `verify`
+defaults to the `default` profile (optimizer off). Without the flag, verification
+compares against unoptimized bytecode — 3,554 bytes rather than the deployed
+1,764 — and fails with:
+
+```
+HHE80009: The address contains a contract whose bytecode does not match any of your local contracts.
+```
 
 ## License
 
