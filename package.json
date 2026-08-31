@@ -1,0 +1,40 @@
+{
+  "name": "sushiflush-token",
+  "version": "1.0.0",
+  "description": "Fixed-supply ERC-20 token (SFLUSH) built with Hardhat 3, TypeScript and viem. Testnet learning project.",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "typecheck": "hardhat build && tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edwinsatya/sushiflush-token.git"
+  },
+  "keywords": [
+    "ethereum",
+    "solidity",
+    "erc20",
+    "hardhat",
+    "viem"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/edwinsatya/sushiflush-token/issues"
+  },
+  "homepage": "https://github.com/edwinsatya/sushiflush-token#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.8",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.7",
+    "@types/node": "^22.20.1",
+    "forge-std": "github:foundry-rs/forge-std#v1.16.2",
+    "hardhat": "^3.15.0",
+    "typescript": "~6.0.3",
+    "viem": "^2.56.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1"
+  }
+}
